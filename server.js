@@ -11,7 +11,8 @@ dotenv.config();
 
 app.get('/api/v1/songs', Spotify.handleAuthorization, Song.search);
 app.get('/api/v1/songs/:id', Spotify.handleAuthorization, Song.get);
+app.get('/api/v1/songs/:id/lyrics', Spotify.handleAuthorization, Song.lyrics);
 
 app.listen(process.env.PORT, () => {
-    console.log('App running on port ', process.env.PORT);
+    console.log('App running on port', process.env.PORT);
 });

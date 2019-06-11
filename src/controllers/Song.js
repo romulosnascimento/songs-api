@@ -1,48 +1,31 @@
-import axios from 'axios';
-
-const spotifySearchEndpoint = 'https://api.spotify.com/v1/search';
-const spotifySongsEndpoint = 'https://api.spotify.com/v1/tracks';
-const musixmatchSongsEndpoint = 'https://api.musixmatch.com/ws/1.1/track.get';
-
-const getMusixmatchSongId = isrc => {
-    
-};
+import Spotify from '../services/Spotify';
+import Musixmatch from '../services/Musixmatch';
 
 const Song = {
     search: (req, res) => {
-        const searchQuery = req.query.q;
+        const query = req.query.q;
         const page = req.query.page || 0;
         const size = req.query.size || 10;
-        axios.get(`${spotifySearchEndpoint}?query=${searchQuery}&type=track&offset=${page}&limit=${size}`, {
-            headers: {
-                'Authorization': `${req.spotifyToken.token_type} ${req.spotifyToken.access_token}`
-            }
-        }).then(response => {
+        Spotify.search(query, page, size).then(response => {
             res.status(200).send(response.data);
         }).catch(error => {
             res.status(500).send(error);
         });
     },
     get: (req, res) => {
-        const id = req.params.id;
-        axios.get(`${spotifySongsEndpoint}/${id}`, {
-            headers: {
-                'Authorization': `${req.spotifyToken.token_type} ${req.spotifyToken.access_token}`
-            }
-        }).then(response => {
+        Spotify.song(req.params.id).then(response => {
             res.status(200).send(response.data);
         }).catch(error => {
             res.status(500).send(error);
         });
     },
-    lyric: (req, res) => {
-        const id = req.params.id;
-        axios.get(`${spotifySongsEndpoint}/${id}`, {
-            headers: {
-                'Authorization': `${req.spotifyToken.token_type} ${req.spotifyToken.access_token}`
-            }
-        }).then(response => {
-            res.status(200).send(response.data);
+    lyrics: (req, res) => {
+        Spotify.song(req.params.id).then(response => {
+            Musixmatch.lyrics(response.data.external_ids.isrc).then(response => {
+                res.status(200).send(response);
+            }).catch(error => {
+                res.status(500).send(error);
+            });
         }).catch(error => {
             res.status(500).send(error);
         });
