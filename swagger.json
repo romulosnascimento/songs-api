@@ -1,0 +1,146 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Songs API",
+        "description": "",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "tags": [
+        {
+            "name": "Songs",
+            "description": "API for Songs in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/songs": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "description": "Get all Songs",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "path",
+                        "description": "Search query",
+                        "schema": {
+                            "$ref": "#/definitions/Song"
+                        }
+                    }, {
+                        "name": "page",
+                        "in": "path",
+                        "description": "Page number",
+                        "schema": {
+                            "$ref": "#/definitions/Song"
+                        }
+                    }, {
+                        "name": "size",
+                        "in": "path",
+                        "description": "Page size",
+                        "schema": {
+                            "$ref": "#/definitions/Song"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/songs"
+                        }
+                    }
+                }
+            }
+        },
+        "/songs/{songId}": {
+            "parameters": [
+                {
+                    "name": "songId",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of Song that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get Song with given ID",
+                "responses": {
+                    "200": {
+                        "description": "Song is found",
+                        "schema": {
+                            "$ref": "#/definitions/Song"
+                        }
+                    }
+                }
+            }
+        },
+        "/songs/{songId}/lyrics": {
+            "parameters": [
+                {
+                    "name": "songId",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of Song that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Get lyrics from song with given ID",
+                "responses": {
+                    "200": {
+                        "description": "Song lyric is found",
+                        "schema": {
+                            "$ref": "#/definitions/Song"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Song": {
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string",
+                    "uniqueItems": true
+                }
+            }
+        },
+        "Songs": {
+            "type": "array",
+            "$ref": "#/definitions/Song"
+        }
+    }
+}
