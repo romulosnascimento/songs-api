@@ -64,7 +64,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/songs"
+                            "$ref": "#/definitions/Songs"
                         }
                     }
                 }
@@ -114,7 +114,7 @@
                     "200": {
                         "description": "Song lyric is found",
                         "schema": {
-                            "$ref": "#/definitions/Song"
+                            "$ref": "#/definitions/Lyrics"
                         }
                     }
                 }
@@ -123,10 +123,6 @@
     },
     "definitions": {
         "Song": {
-            "required": [
-                "id",
-                "name"
-            ],
             "properties": {
                 "id": {
                     "type": "string",
@@ -136,11 +132,96 @@
                     "type": "string",
                     "uniqueItems": true
                 }
+            },
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                },
+                "duration_ms": {
+                    "type": "integer"
+                },
+                "preview_url": {
+                    "type": "string"
+                },
+                "album": {
+                    "type": "object",
+                    "$ref": "#/definitions/Album"
+                },
+                "artists": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Artist"
+                    }
+                },
+                "isrc": {
+                    "type": "string"
+                }
             }
         },
         "Songs": {
             "type": "array",
-            "$ref": "#/definitions/Song"
+            "items": {
+              "$ref": "#/definitions/Song"
+            }
+        },
+        "Artist": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "Album": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "image_url": {
+                    "type": "string"
+                }
+            }
+        },
+        "Lyrics": {
+            "type": "object",
+            "properties": {
+                "lyrics_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "explicit": {
+                    "type": "integer"
+                },
+                "lyrics_body": {
+                    "type": "string"
+                },
+                "script_tracking_url": {
+                    "type": "string"
+                },
+                "pixel_tracking_url": {
+                    "type": "string"
+                },
+                "lyrics_copyright": {
+                    "type": "string"
+                },
+                "updated_time": {
+                    "type": "string",
+                    "format": "date"
+                }
+            }
         }
     }
 }
